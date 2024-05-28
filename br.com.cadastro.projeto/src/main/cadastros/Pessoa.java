@@ -1,12 +1,10 @@
-package Testando.main;
-
-import java.util.Objects;
+package Testando.main.cadastros;
 
 public class Pessoa {
-    private String nome;
-    private String email;
-    private int idade;
-    private double altura;
+   private String nome;
+   private String email;
+   private int idade;
+   private double altura;
 
     public Pessoa(String nome, String email, int idade, double altura) {
         this.nome = nome;
@@ -57,16 +55,4 @@ public class Pessoa {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pessoa pessoa = (Pessoa) o;
-        return Objects.equals(email, pessoa.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(email);
-    }
 }

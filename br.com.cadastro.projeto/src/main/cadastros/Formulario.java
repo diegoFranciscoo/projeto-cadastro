@@ -1,7 +1,7 @@
-package Testando.main;
+package Testando.main.cadastros;
 
 public class Formulario {
-    private String pergunta;
+    protected String pergunta;
 
     public Formulario(String pergunta) {
         this.pergunta = pergunta;
@@ -11,8 +11,7 @@ public class Formulario {
         return pergunta;
     }
 
-    @Override
-    public String toString() {
-        return "Pergunta: " + pergunta;
+    public void setPergunta(String pergunta) {
+        this.pergunta = pergunta;
     }
 }

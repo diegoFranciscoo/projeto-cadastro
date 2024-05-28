@@ -1,6 +1,6 @@
 package Testando.test;
 
-import Testando.main.Menu;
+import Testando.main.view.Menu;
 
 public class Teste {
     public static void main(String[] args) {
