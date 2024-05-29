@@ -22,34 +22,31 @@ public class Menu {
     public void menuPrincipal() {
         arquivo.menuPrincipalTxt();
         int opcao = scanner.nextInt();
-
-        switch (opcao) {
-            case 1:
-                arquivo.menuCadastroPessoa();
-                cadastroPessoa.cadastraPessoa();
-                menuPrincipal();
-                break;
-            case 2:
-                cadastroPessoa.pessoasCadastradas();
-                menuPrincipal();
-                break;
-            case 3:
-                cadastraPergunta.cadastrarPergunta();
-                menuPrincipal();
-                break;
-            case 4:
-                cadastraPergunta.deletarPergunta();
-                menuPrincipal();
-                break;
-            case 5:
-                cadastroPessoa.pesquisarPorNomeEmailOuIdade();
-                menuPrincipal();
-                break;
-            default:
-                System.out.println("Opção invalida");
-                menuPrincipal();
+        while(opcao != 0) {
+            switch (opcao) {
+                case 1:
+                    arquivo.menuCadastroPessoa();
+                    cadastroPessoa.cadastraPessoa();
+                    break;
+                case 2:
+                    cadastroPessoa.pessoasCadastradas();
+                    break;
+                case 3:
+                    cadastraPergunta.cadastrarPergunta();
+                    break;
+                case 4:
+                    cadastraPergunta.deletarPergunta();
+                    break;
+                case 5:
+                    cadastroPessoa.pesquisarPorNomeEmailOuIdade();
+                    break;
+                default:
+                    System.out.println("Opção invalida");
+            }
+            arquivo.menuPrincipalTxt();
+            opcao = scanner.nextInt();
         }
-
+    }
     }
 
-}
+

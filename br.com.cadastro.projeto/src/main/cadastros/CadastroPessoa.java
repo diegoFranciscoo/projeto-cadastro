@@ -1,9 +1,11 @@
 package Testando.main.cadastros;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,14 +34,21 @@ public class CadastroPessoa {
         Pessoa pessoa = new Pessoa(nome, email, idade, altura);
         pessoas.add(pessoa);
 
-        String diretorio = "C:\\ProjetoCadastro\\br.com.cadastro.projeto\\src\\Cadastrados";
-        File diretorioCadastros = new File(diretorio);
-        diretorioCadastros.mkdir();
+        Path diretorio = Paths.get("br.com.cadastro.projeto/src/Cadastrados");
+        try {
+            if (Files.notExists(diretorio)) {
+                Path diretorioCadastrados = Files.createDirectories(diretorio);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
         String nomeFile = pessoas.size() + "-" + pessoa.getNome().toUpperCase();
-        File file = new File(diretorio, nomeFile);
+        Path fileCadastrados = Paths.get(diretorio.toString(), nomeFile);
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file));) {
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileCadastrados.toFile()));) {
             bw.write(pessoa.getNome());
             bw.newLine();
             bw.write(pessoa.getEmail());
@@ -57,7 +66,7 @@ public class CadastroPessoa {
     public void validaPessoa(String nome, String email, int idade) {
         if (nome.length() < 10) throw new IllegalArgumentException("O nome deve possuir no minimo 10 letras");
 
-        if (!email.contains("@")) throw new IllegalArgumentException("O email deve conter @"); // fazer com regex
+        if (!email.contains("@")) throw new IllegalArgumentException("O email deve conter @");
 
         if (idade < 18) throw new IllegalArgumentException("Você deve ser maior que 18 anos");
 
@@ -67,10 +76,9 @@ public class CadastroPessoa {
 
         }
     }
-    public void pessoasCadastradas(){
-        int size = pessoas.size();
-        if (pessoas.isEmpty()) throw new RuntimeException("Sem pessoas cadastradas");
 
+    public void pessoasCadastradas() {
+        if (pessoas.isEmpty()) throw new RuntimeException("Sem pessoas cadastradas");
 
         int i = 1;
         for (Pessoa pessoa : pessoas) {
@@ -95,20 +103,33 @@ public class CadastroPessoa {
                 System.out.println("Digite o nome para pesquisar:");
                 scanner.nextLine();
                 String nomePesquisa = scanner.nextLine();
-                List<Pessoa> listNome = pessoas.stream().filter(n -> n.getNome().contains(nomePesquisa)).toList();
-                System.out.println(listNome);
+                List<Pessoa> listNome = pessoas.stream().filter(n -> n.getNome().startsWith(nomePesquisa)).toList();
+                if (!listNome.isEmpty()) {
+                    System.out.println(listNome);
+                } else {
+                    System.out.println("Nenhum usuario foi encontrado");
+                }
                 break;
             case 2:
                 System.out.println("Digite o email para pesquisar:");
                 scanner.next();
                 String emailPesquisa = scanner.nextLine();
-                List<Pessoa> listEmail = pessoas.stream().filter(n -> n.getEmail().contains(emailPesquisa)).toList();
-                System.out.println(listEmail);
+                List<Pessoa> listEmail = pessoas.stream().filter(n -> n.getEmail().startsWith(emailPesquisa)).toList();
+                if (!listEmail.isEmpty()) {
+                    System.out.println(listEmail);
+                } else {
+                    System.out.println("Nenhum usuario foi encontrado");
+                }
                 break;
             case 3:
                 System.out.println("Digite o idade para pesquisar:");
                 int idadePesquisa = scanner.nextInt();
                 List<Pessoa> listIdade = pessoas.stream().filter(n -> n.getIdade() == idadePesquisa).toList();
+                if (!listIdade.isEmpty()) {
+                    System.out.println(listIdade);
+                } else {
+                    System.out.println("Nenhum usuario foi encontrado");
+                }
                 System.out.println(listIdade);
                 break;
         }
